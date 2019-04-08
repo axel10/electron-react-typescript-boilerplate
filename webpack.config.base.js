@@ -33,7 +33,11 @@ module.exports = {
     modules: [
       path.join(__dirname, 'app'),
       'node_modules',
-    ]
+    ],
+    alias: {
+      '@': path.resolve(__dirname, './app/')
+      // '@': __dirname
+    },
   },
 
   plugins: [],

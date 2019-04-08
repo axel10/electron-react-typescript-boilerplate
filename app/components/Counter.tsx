@@ -35,6 +35,8 @@ export class Counter extends React.Component<IProps> {
           <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn">odd</button>
           <button className={styles.btn} onClick={() => incrementAsync()} data-tclass="btn">async</button>
         </div>
+
+        <img src={require('@/assets/icon.png')} alt=""/>
       </div>
     );
   }
