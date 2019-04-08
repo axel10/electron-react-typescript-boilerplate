@@ -4,14 +4,15 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const baseConfig = require('./webpack.config.base');
 
 module.exports = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
-
+  mode:'production',
   entry: [
     './app/index'
   ],
@@ -22,12 +23,15 @@ module.exports = merge(baseConfig, {
   },
 
   module: {
-    loaders: [
+    rules: [
       // Extract all .global.css to style.css as is
       {
         test: /\.(scss|sass)$/,
-        use: ExtractTextPlugin.extract({
-          use: [{
+        use: [
+          {
+            loader:MiniCssExtractPlugin.loader,
+          },
+          {
             loader: 'css-loader',
             options: {
               //modules: true,
@@ -36,10 +40,24 @@ module.exports = merge(baseConfig, {
             }
           },
           {
-            loader: 'sass-loader'
-          }]
-        })
+            loader:'sass-loader'
+          }
+        ]
+        /*ExtractTextPlugin.extract({
+          use: [{
+            loader: 'css-loader',
+            options: {
+              //modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]__[hash:base64:5]',
+            }
+          },
+            {
+              loader: 'sass-loader'
+            }]
+        })*/
       },
+
 
       // WOFF Font
       {
@@ -108,7 +126,12 @@ module.exports = merge(baseConfig, {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
 
-    new ExtractTextPlugin('style.css'),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    }),
 
     new HtmlWebpackPlugin({
       filename: '../app.html',

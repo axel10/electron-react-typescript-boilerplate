@@ -9,9 +9,9 @@ const {
 
 module.exports = {
   module: {
-    loaders: [{
+    rules: [{
       test: /\.tsx?$/,
-      loaders: ['react-hot-loader/webpack', 'ts-loader'],
+      use: ['react-hot-loader/webpack', 'ts-loader'],
       exclude: /node_modules/
     }, {
       test: /\.json$/,
